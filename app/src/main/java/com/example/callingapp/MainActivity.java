@@ -18,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -37,45 +38,21 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<Contact> list;
-    ArrayList<Contact> searchList;
-
-    private androidx.appcompat.widget.SearchView search;
+    public static ArrayList<Contact> list;
     private RecyclerView recycle;
-    private EditText searchEditText;
-
+    private ImageView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         recycle = (RecyclerView) findViewById(R.id.recycle);
-        searchEditText = (EditText) findViewById(R.id.search);
+        search = (ImageView) findViewById(R.id.search);
         list = new ArrayList<>();
-        searchList = new ArrayList<>();
-        searchEditText.addTextChangedListener(new TextWatcher() {
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchList.clear();
-                for (Contact contact : list){
-                    if (contact.name.contains(charSequence.toString()) || contact.phone.contains(charSequence.toString())){
-                        searchList.add(contact);
-                    }
-                    ContactAdapter adapter = new ContactAdapter(MainActivity.this, searchList);
-                    recycle.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    recycle.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void onClick(View view) {
+                Utils._Intent(MainActivity.this, SearchActivity.class);
             }
         });
         checkPermission();
@@ -104,35 +81,18 @@ public class MainActivity extends AppCompatActivity {
     private void getContactList() {
         list.clear();
         ContentResolver cr = getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+        Cursor cur = cr.query(Uri.parse("content://icc/adn"),  //sim contact
                 null, null, null, null);
 
         if ((cur != null ? cur.getCount() : 0) > 0) {
             while (cur != null && cur.moveToNext()) {
-                String id = cur.getString(
-                        cur.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndexOrThrow(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-                String photo = cur.getString(cur.getColumnIndexOrThrow(
-                        ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-
-                if (cur.getInt(cur.getColumnIndexOrThrow(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-                    while (pCur.moveToNext()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndexOrThrow(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        list.add(new Contact(name, phoneNo, photo));
-                    }
-                    getData();
-                    pCur.close();
-                }
+                String name = cur.getString(cur.getColumnIndexOrThrow("name"));
+                String number = cur.getString(cur.getColumnIndexOrThrow("number"));
+                Contact contact = new Contact(name, number);
+                list.add(contact);
             }
         }
+        getData();
         if (cur != null) {
             cur.close();
         }
@@ -151,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             recycle.setAdapter(adapter);
         }
     }
-
 
 
 }

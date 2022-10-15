@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CallingApp</string>
+    <string name="phone">الهاتف</string>
+    <string name="search">بحث</string>
+    <string name="here_paied">نسخ #</string>
+    <string name="two">الاشعار برسالة</string>
+    <string name="three">نسخ بلا مقدمة</string>
+    <string name="copy">نسخ</string>
+    <string name="recent_search">عمليات البحث الأخيرة</string>
+</resources>

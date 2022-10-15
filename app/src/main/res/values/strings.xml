@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CallingApp</string>
+    <string name="phone">Phone</string>
+    <string name="search">search</string>
+    <string name="here_paied">call with #</string>
+    <string name="two">Notice message</string>
+    <string name="three">Short number</string>
+    <string name="copy">copy</string>
+    <string name="recent_search">Recent searches</string>
 </resources>

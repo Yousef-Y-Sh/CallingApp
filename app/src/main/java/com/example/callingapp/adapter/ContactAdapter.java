@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,9 +23,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.callingapp.R;
 import com.example.callingapp.moudle.Contact;
 import com.example.callingapp.utils.Utils;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -52,8 +58,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(list.get(position).name + "");
         holder.charachter.setText(list.get(position).name + "");
-        holder.phone.setText(list.get(position).phone + "");
-        holder.actionsLinear.setVisibility(View.GONE);
+        holder.phone.setText(list.get(position).number + "");
         Random rnd = new Random();
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         holder.ColorCircle.setBackgroundColor(color);
@@ -77,7 +82,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
 
                 } else if (start.equals("05")) {
                     phone = number;
-                    Log.e(TAG, phone);
                 }
                 String encodedHash = Uri.encode("#");
                 Intent intent = new Intent(Intent.ACTION_CALL);
@@ -113,7 +117,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
                 activity.startActivity(intent);
             }
         });
-        holder.copy.setOnClickListener(new View.OnClickListener() {
+        holder.copyShort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String number = Utils._getText(holder.phone);
@@ -138,19 +142,56 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
                 ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("label", phone.substring(2));
                 clipboard.setPrimaryClip(clip);
-                Utils._Toast(activity,"تم الحفظ");
+                Utils._Toast(activity, "تم الحفظ");
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (holder.actionsLinear.getVisibility() == View.VISIBLE) {
+                    Animation slide_up = AnimationUtils.loadAnimation(activity,
+                            R.anim.slide_up);
+                    holder.actionsLinear.startAnimation(slide_up);
+                    slide_up.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
 
-                if (holder.actionsLinear.getVisibility() == View.GONE) {
-                    holder.actionsLinear.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            holder.actionsLinear.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
                 } else {
-                    holder.actionsLinear.setVisibility(View.GONE);
-                }
+                    holder.actionsLinear.setVisibility(View.INVISIBLE);
+                    Animation slide_down = AnimationUtils.loadAnimation(activity,
+                            R.anim.slide_down);
+                    holder.actionsLinear.startAnimation(slide_down);
+                    slide_down.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
 
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            holder.actionsLinear.setVisibility(View.VISIBLE);
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                }
             }
         });
 
@@ -167,9 +208,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
         private TextView name;
         private TextView phone;
         private LinearLayout actionsLinear;
-        private LinearLayout sendCall;
-        private LinearLayout sendMsg;
-        private LinearLayout copy;
+        private TextView sendCall;
+        private TextView sendMsg;
+        private TextView copyShort;
+        private TextView copyComplete;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -178,9 +220,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
             name = (TextView) itemView.findViewById(R.id.name);
             phone = (TextView) itemView.findViewById(R.id.phone);
             actionsLinear = (LinearLayout) itemView.findViewById(R.id.actionsLinear);
-            sendCall = (LinearLayout) itemView.findViewById(R.id.sendCall);
-            sendMsg = (LinearLayout) itemView.findViewById(R.id.sendMsg);
-            copy = (LinearLayout) itemView.findViewById(R.id.copy);
+            sendCall = (TextView) itemView.findViewById(R.id.sendCall);
+            sendMsg = (TextView) itemView.findViewById(R.id.sendMsg);
+            copyShort = (TextView) itemView.findViewById(R.id.copyShort);
+            copyComplete = (TextView) itemView.findViewById(R.id.copyComplete);
         }
     }
 }
