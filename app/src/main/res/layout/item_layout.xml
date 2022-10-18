@@ -30,6 +30,7 @@
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 app:cardCornerRadius="200dp"
+                app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,23 +40,19 @@
                     android:id="@+id/ColorCircle"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#C83030"
+                    android:background="#3098C8"
                     android:maxLength="1" />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-        <TextView
+        <ImageView
             android:id="@+id/charachter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:maxLength="1"
-            android:padding="8dp"
-            android:text="ي"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:src="@drawable/ic_baseline_person_outline_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,16 +100,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/sendCall"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="8dp"
                 android:gravity="center"
+                android:padding="8dp"
                 android:text="@string/here_paied"
+                android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -126,6 +124,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
                 android:padding="8dp"
                 android:text="@string/two"
                 android:textColor="@color/black"
@@ -140,8 +139,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="8dp"
                 android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
                 android:text="@string/three"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -153,9 +153,10 @@
                 android:id="@+id/copyComplete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
                 android:text="@string/copy"
                 android:textColor="@color/black"
                 android:textSize="14sp"

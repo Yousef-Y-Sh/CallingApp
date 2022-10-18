@@ -40,6 +40,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     Activity activity;
     ArrayList<Contact> list;
     private String TAG = "sssssssss";
+
     public ContactAdapter(Activity activity, ArrayList<Contact> list) {
         this.activity = activity;
         this.list = list;
@@ -58,90 +59,49 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(list.get(position).name + "");
-        holder.charachter.setText(list.get(position).name + "");
         holder.phone.setText(list.get(position).number + "");
-        Random rnd = new Random();
-        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        holder.ColorCircle.setBackgroundColor(color);
+        holder.actionsLinear.setVisibility(View.GONE);
         holder.sendCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String number = Utils._getText(holder.phone);
-                String phone = number;
-                String start = number.substring(0, 4);
-                if (number.substring(0, 5).equals("00970")) {
-                    phone = number.substring(4);
 
-                } else if (number.substring(0, 5).equals("00972")) {
-                    phone = "0" + number.substring(5);
-
-                } else if (number.substring(0, 4).equals("+970")) {
-                    phone = number.substring(3);
-
-                } else if (number.substring(0, 4).equals("+972")) {
-                    phone = "0" + number.substring(4);
-
-                } else if (start.equals("05")) {
-                    phone = number;
-                }
+                String phone = list.get(holder.getAdapterPosition()).number;
+                String final_number = "0" + phone.substring(phone.length() - 9, phone.length());
                 String encodedHash = Uri.encode("#");
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + encodedHash + phone));
+                intent.setData(Uri.parse("tel:" + encodedHash + final_number));
                 activity.startActivity(intent);
             }
         });
         holder.sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String number = Utils._getText(holder.phone);
-                String phone = number;
-                String start = number.substring(0, 4);
-                if (number.substring(0, 5).equals("00970")) {
-                    phone = number.substring(4);
-
-                } else if (number.substring(0, 5).equals("00972")) {
-                    phone = "0" + number.substring(5);
-
-                } else if (number.substring(0, 4).equals("+970")) {
-                    phone = number.substring(3);
-
-                } else if (number.substring(0, 4).equals("+972")) {
-                    phone = "0" + number.substring(4);
-
-                } else if (start.equals("05")) {
-                    phone = number;
-                    Log.e(TAG, phone);
-                }
+                String phone = list.get(holder.getAdapterPosition()).number;
+                String final_number = "0" + phone.substring(phone.length() - 9, phone.length());
                 String encodedHash = Uri.encode("#");
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:*111*5*" + phone + encodedHash));
+                intent.setData(Uri.parse("tel:*111*5*" + final_number + encodedHash));
                 activity.startActivity(intent);
             }
         });
         holder.copyShort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String number = Utils._getText(holder.phone);
-                String phone = number;
-                String start = number.substring(0, 4);
-                if (number.substring(0, 5).equals("00970")) {
-                    phone = number.substring(4);
-
-                } else if (number.substring(0, 5).equals("00972")) {
-                    phone = "0" + number.substring(5);
-
-                } else if (number.substring(0, 4).equals("+970")) {
-                    phone = number.substring(3);
-
-                } else if (number.substring(0, 4).equals("+972")) {
-                    phone = "0" + number.substring(4);
-
-                } else if (start.equals("05")) {
-                    phone = number;
-                    Log.e(TAG, phone);
-                }
+                String phone = list.get(holder.getAdapterPosition()).number;
+                String final_number = phone.substring(phone.length() - 8, phone.length());
                 ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("label", phone.substring(2));
+                ClipData clip = ClipData.newPlainText("label", final_number);
+                clipboard.setPrimaryClip(clip);
+                Utils._Toast(activity, "تم الحفظ");
+            }
+        });
+        holder.copyComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = list.get(holder.getAdapterPosition()).number;
+                String final_number = "0" + phone.substring(phone.length() - 9, phone.length());
+                ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("label", final_number);
                 clipboard.setPrimaryClip(clip);
                 Utils._Toast(activity, "تم الحفظ");
             }
@@ -204,8 +164,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private View ColorCircle;
-        private TextView charachter;
         private TextView name;
         private TextView phone;
         private LinearLayout actionsLinear;
@@ -216,8 +174,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            ColorCircle = (View) itemView.findViewById(R.id.ColorCircle);
-            charachter = (TextView) itemView.findViewById(R.id.charachter);
             name = (TextView) itemView.findViewById(R.id.name);
             phone = (TextView) itemView.findViewById(R.id.phone);
             actionsLinear = (LinearLayout) itemView.findViewById(R.id.actionsLinear);
