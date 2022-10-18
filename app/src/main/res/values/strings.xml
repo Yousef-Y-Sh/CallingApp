@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">CallingApp</string>
+    <string name="app_name">Calling App</string>
     <string name="phone">Phone</string>
     <string name="search">search</string>
-    <string name="here_paied">call with #</string>
+    <string name="here_paied">call </string>
     <string name="two">Notice message</string>
     <string name="three">Short number</string>
     <string name="copy">copy</string>

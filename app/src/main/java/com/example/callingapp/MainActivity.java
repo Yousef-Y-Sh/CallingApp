@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     return contact.name.compareTo(t1.name);
                 }
             });
-            ContactAdapter adapter = new ContactAdapter(MainActivity.this, list);
+            ContactAdapter adapter = new ContactAdapter(MainActivity.this, list,false);
             recycle.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             recycle.setAdapter(adapter);
         }

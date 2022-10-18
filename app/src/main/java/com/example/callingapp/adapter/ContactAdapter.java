@@ -6,8 +6,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Layout;
 import android.util.Log;
@@ -38,7 +40,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
     Activity activity;
     ArrayList<Contact> list;
     private String TAG = "sssssssss";
-
     public ContactAdapter(Activity activity, ArrayList<Contact> list) {
         this.activity = activity;
         this.list = list;

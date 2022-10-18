@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -29,7 +31,6 @@ public class SearchActivity extends AppCompatActivity {
     private TextView textView2;
     private RecyclerView recyclerView;
     ArrayList<Contact> searchList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class SearchActivity extends AppCompatActivity {
                     // Perform action on key press
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    if (searchList.isEmpty()){
+                    if (searchList.isEmpty()) {
 
                     }
                     return true;
